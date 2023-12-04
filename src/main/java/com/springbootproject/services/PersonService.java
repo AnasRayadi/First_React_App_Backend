@@ -16,7 +16,6 @@ import java.util.List;
 @Service //@Component is the same as @Service
 public class PersonService {
     private PersonDao personDao;
-
     public PersonService(@Qualifier("jpa") PersonDao personDao) {
         this.personDao = personDao;
     }
@@ -32,7 +31,7 @@ public class PersonService {
         if (personDao.existsPersonWith(personRegistrationRequest.name())){
             throw new DuplicateResourceException("Person already exist !");
         }
-        Person person = new Person(personRegistrationRequest.name(),personRegistrationRequest.age());
+        Person person = new Person(personRegistrationRequest.name(),personRegistrationRequest.age(),personRegistrationRequest.email(),personRegistrationRequest.phone());
         personDao.insertPerson(person);
     }
     public void removePerson(Integer id){
@@ -60,6 +59,12 @@ public class PersonService {
             person.setAge(updateRequest.age());
             change = true;
         }
+        if (updateRequest.email() != null && updateRequest.email() != person.getEmail() )
+            person.setEmail(updateRequest.email());
+            change = true;
+        if (updateRequest.phone() != null && updateRequest.phone() != person.getPhone())
+            person.setPhone(updateRequest.phone());
+            change = true;
         if (!change){
             throw new RequestValidationException("No data changes found!");
         }

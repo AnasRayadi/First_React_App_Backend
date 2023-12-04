@@ -14,6 +14,11 @@ public class Person {
     private String name;
     @Column(nullable = false)
     private Integer age;
+    @Column(nullable = false)
+    private String email;
+    @Column(nullable = false)
+    private String phone;
+
 
     public Person() {}
 
@@ -23,9 +28,11 @@ public class Person {
         this.age = age;
     }
 
-    public Person(String name, int age) {
+    public Person(String name, Integer age, String email, String phone) {
         this.name = name;
         this.age = age;
+        this.email = email;
+        this.phone = phone;
     }
 
     public int getId() {
@@ -52,17 +59,33 @@ public class Person {
         this.age = age;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return id == person.id && age == person.age && Objects.equals(name, person.name);
+        return Objects.equals(id, person.id) && Objects.equals(name, person.name) && Objects.equals(age, person.age) && Objects.equals(email, person.email) && Objects.equals(phone, person.phone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, age);
+        return Objects.hash(id, name, age, email, phone);
     }
 
     @Override
@@ -71,6 +94,8 @@ public class Person {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
                 '}';
     }
 }
